@@ -5,6 +5,23 @@ function check_bubble(obj){
 
 }
 
+function getLink (obj){
+	var link = "";
+	switch ($(obj).attr("id") ){
+		case "b4":
+			link = "b4.html";
+			break;
+		case "b5":
+			link = "index.html";
+			break;
+		case "b6":
+			link = "b6.html";
+			break;
+	}
+	return link;
+}
+
+
 function getParent(obj){
 	switch ($(obj).attr("id")) {
 		case "b2":
@@ -56,15 +73,15 @@ function small_pop(obj){
 function small_big(obj){
 	//parents
 	var parent = getParent($(obj));
-	console.log(parent); 
+	//console.log(parent); 
 	if (parent != null){
 		small_pop($(parent));
 		if ($(parent).attr("class") === "pop"){
 				$(parent).attr("onclick", "");
-				console.log("parent die!");
+				//console.log("parent die!");
 			} else { //not popped
 				$(parent).attr("onclick", "small_big(this);");
-				console.log("parent liiive!");
+				//console.log("parent liiive!");
 			}
 	}
 	var relatives = getChildren($(parent));
@@ -72,20 +89,42 @@ function small_big(obj){
 	var i = 0;
 	this_one = $(obj).attr("id");
 	while (i < size){
+		//verify if this is the original button
 		if (relatives[i] === "#"+this_one) {
 			$(relatives[i]).toggleClass("small_bubble");
-			$(relatives[i]).toggleClass("big_bubble");	
+			$(relatives[i]).toggleClass("big_bubble");
+
+
 		} else {
 			$(relatives[i]).toggleClass("pop");
 			$(relatives[i]).toggleClass("big_bubble");
+			//if class === pop, remove link and event
 			if ($(relatives[i]).attr("class") === "pop"){
 				$(relatives[i]).attr("onclick", "");
-				console.log("bros die!");
+				//$(relatives[i]).removeAttr( "href" );
+				//console.log("bros die!");
 			} else { //not popped
 				$(relatives[i]).attr("onclick", "small_big(this);");
-				console.log("bros liiive!");
+				//if ( getLink($(relatives[i])) !== "" ){
+				//	$(relatives[i]).attr("href", getLink($(relatives[i])));
+				//}
+				//console.log("bros liiive!");
 			}	
-		}	
+		}
+		
+		//if is big_bubble
+		/*
+		if ($(relatives[i]).attr("class") === "big_bubble"){
+			if ( getLink($(relatives[i])) !== "" ){
+				$(relatives[i]).attr("href", getLink($(relatives[i])));
+			}	
+		} else {
+			if ( getLink($(relatives[i])) !== "" ){
+				$(relatives[i]).removeAttr( "href" );
+			}
+		}
+		*/
+
 		i+=1;
 	}
 
@@ -104,10 +143,10 @@ function small_big(obj){
 				$(children[i]).toggleClass("big_bubble");
 				if ($(children[i]).attr("class") === "pop"){
 					$(children[i]).attr("onclick", "");
-					console.log("child die!");
+					//console.log("child die!");
 				} else { //not popped
 					$(children[i]).attr("onclick", "small_big(this);");
-					console.log("child liiive!");
+					//console.log("child liiive!");
 				}	
 			i+=1;
 		}
