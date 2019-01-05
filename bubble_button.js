@@ -9,13 +9,13 @@ function getLink (obj){
 	var link = "";
 	switch ($(obj).attr("id") ){
 		case "b4":
-			link = "b4.html";
+			link = "pg4.html";
 			break;
 		case "b5":
 			link = "index.html";
 			break;
 		case "b6":
-			link = "b6.html";
+			link = "pg6.html";
 			break;
 	}
 	return link;
@@ -101,59 +101,93 @@ function small_big(obj){
 			//if class === pop, remove link and event
 			if ($(relatives[i]).attr("class") === "pop"){
 				$(relatives[i]).attr("onclick", "");
-				//$(relatives[i]).removeAttr( "href" );
-				//console.log("bros die!");
+				
 			} else { //not popped
 				$(relatives[i]).attr("onclick", "small_big(this);");
-				//if ( getLink($(relatives[i])) !== "" ){
-				//	$(relatives[i]).attr("href", getLink($(relatives[i])));
-				//}
-				//console.log("bros liiive!");
+				
 			}	
 		}
 		
-		//if is big_bubble
-		/*
-		if ($(relatives[i]).attr("class") === "big_bubble"){
-			if ( getLink($(relatives[i])) !== "" ){
-				$(relatives[i]).attr("href", getLink($(relatives[i])));
-			}	
-		} else {
-			if ( getLink($(relatives[i])) !== "" ){
-				$(relatives[i]).removeAttr( "href" );
-			}
+		if (getLink($(relatives[i])) !== "" && $(relatives[i]).attr("class") === "pop") {
+			$(relatives[i]).removeAttr("href");
+
 		}
-		*/
 
 		i+=1;
-	}
+	} //end while
 
 
-	//$(obj).toggleClass("small_bubble");
-	//$(obj).toggleClass("big_bubble");
 	
 
 	var children = getChildren($(obj));
 	size = children.length;
 	i = 0;
-	//this_one = $(obj).attr("id");
+	//if has children
 	if ( jQuery.isEmptyObject(children) == false ){
+		//loop children
 		while (i < size){
 				$(children[i]).toggleClass("pop");
 				$(children[i]).toggleClass("big_bubble");
 				if ($(children[i]).attr("class") === "pop"){
 					$(children[i]).attr("onclick", "");
-					//console.log("child die!");
+					
 				} else { //not popped
 					$(children[i]).attr("onclick", "small_big(this);");
-					//console.log("child liiive!");
-				}	
+					
+				}
+
+				
+				//console.log("-- "+getLink($(children[i])));
+				
 			i+=1;
-		}
+		} // end while
 	}
+	setTimeout( function(){
+    	$(".big_bubble").each( function () {
+			//this_id = $(this).attr("id");
+			//if not blank link
+			if ( getLink(this) !== "" ){ 
+				$(this).attr("href", getLink($(this)) );
+			}
+			//console.log(this_id);
+			
+		});
+    }, 500);
+
+    
+	
 }
 
 function big_pop(obj){
 	$(obj).toggleClass("big_bubble");
 	$(obj).toggleClass("pop");
+}
+
+function check_big_bubbles(){
+/*
+	window.setTimeout(function(){
+                 // do whatever you want to do     
+                  }, 600);
+*/
+	//var this_id = "";
+	$(".big_bubble").each( function () {
+		//this_id = $(this).attr("id");
+		//if not blank link
+		if ( getLink(this) !== "" ){ 
+			$(this).attr("href", getLink($(this)) );
+		}
+		//console.log(this_id);
+		
+	});
+	
+	/*
+	if (getLink($(relatives[i])) !== "" && $(relatives[i]).attr("class") === "big_bubble" ){
+			$(relatives[i]).attr("href", getLink($(relatives[i])) );
+			
+		} else if (getLink($(relatives[i])) !== "" && $(relatives[i]).attr("class") === "pop") {
+			//$(relatives[i]).removeAttr("href");
+			//console.log("falls");
+		}
+
+	*/
 }
